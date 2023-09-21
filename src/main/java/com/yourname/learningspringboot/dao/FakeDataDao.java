@@ -2,9 +2,11 @@ package com.yourname.learningspringboot.dao;
 
 import com.yourname.learningspringboot.model.User;
 import com.yourname.learningspringboot.model.User.Gender;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
+@Repository
 public class FakeDataDao implements UserDao {
 
     private static Map<UUID, User> database;
@@ -16,13 +18,13 @@ public class FakeDataDao implements UserDao {
     }
 
     @Override
-    public List<User> getAllUsers() {
+    public List<User> selectAllUsers() {
         return new ArrayList<>(database.values());
     }
 
     @Override
-    public User getUser(UUID userUid) {
-        return database.get(userUid);
+    public Optional<User> selectUserByUserUid(UUID userUid) {
+        return Optional.ofNullable(database.get(userUid));
     }
 
     @Override
@@ -32,7 +34,7 @@ public class FakeDataDao implements UserDao {
     }
 
     @Override
-    public int removeUser(UUID userUid) {
+    public int deleteUserByUserUid(UUID userUid) {
         database.remove(userUid);
         return 1;
     }

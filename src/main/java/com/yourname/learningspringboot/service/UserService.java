@@ -1,38 +1,51 @@
 package com.yourname.learningspringboot.service;
 
+import com.yourname.learningspringboot.dao.UserDao;
 import com.yourname.learningspringboot.model.User;
-
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
 public class UserService {
 
-    @Override
+    private UserDao userDao;
+
+    @Autowired
+    public UserService(UserDao userDao) {
+        this.userDao = userDao;
+    }
+
     public List<User> getAllUsers() {
-        return new ArrayList<>(database.values());
+        return userDao.selectAllUsers();
     }
 
-    @Override
-    public User getUser(UUID userUid) {
-        return database.get(userUid);
+    public Optional<User> getUser(UUID userUid) {
+        return userDao.selectUserByUserUid(userUid);
     }
 
-    @Override
     public int updateUser(User user) {
-        database.put(user.getUserUid(), user);
-        return 1;
+        Optional<User> optionalUser = getUser(user.getUserUid());
+        if (optionalUser.isPresent()) {
+            userDao.updateUser(user);
+            return 1;
+        }
+        return -1;
     }
 
-    @Override
     public int removeUser(UUID userUid) {
-        database.remove(userUid);
-        return 1;
+        Optional<User> optionalUser = getUser(userUid);
+        if (optionalUser.isPresent()) {
+            userDao.deleteUserByUserUid(userUid);
+            return 1;
+        }
+        return -1;
     }
 
-    @Override
     public int insertUser(UUID userUid, User user) {
-        database.put(userUid, user);
-        return 1;
+        return userDao.insertUser(UUID.randomUUID(), user);
     }
 }
