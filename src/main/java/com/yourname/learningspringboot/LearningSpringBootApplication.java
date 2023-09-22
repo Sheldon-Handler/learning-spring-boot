@@ -13,8 +13,6 @@ public class LearningSpringBootApplication {
 		SpringApplication.run(LearningSpringBootApplication.class, args);
 	}
 
-
-
 //	@RestController
 //	class Resource {
 //
