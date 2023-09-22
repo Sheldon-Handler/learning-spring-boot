@@ -1,7 +1,6 @@
 package com.yourname.learningspringboot.dao;
 
 import com.yourname.learningspringboot.model.User;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.List;
@@ -54,14 +53,38 @@ public class FakeDataDaoTest {
     }
 
     @Test
-    public void updateUser() throws Exception {
+    public void shouldUpdateUser() throws Exception {
+        UUID userUid = fakeDataDao.selectAllUsers().get(0).getUserUid();
+        User newUser = new User(userUid, "anna",
+                "montana", User.Gender.FEMALE, 30,"anna@gmail.com");
+        fakeDataDao.updateUser(newUser);
+        Optional<User> user = fakeDataDao.selectUserByUserUid(userUid);
+        assertThat(user.isPresent()).isTrue();
+
+        assertThat(fakeDataDao.selectAllUsers()).hasSize(1);
+        assertThat(user.get()).isEqualToComparingFieldByField(newUser);
     }
 
     @Test
     public void deleteUserByUserUid() throws Exception {
+        UUID userUid = fakeDataDao.selectAllUsers().get(0).getUserUid();
+
+        fakeDataDao.deleteUserByUserUid(userUid);
+
+        assertThat(fakeDataDao.selectUserByUserUid(userUid).isPresent()).isFalse();
+        assertThat(fakeDataDao.selectAllUsers()).isEmpty();
     }
 
     @Test
     public void insertUser() throws Exception {
+        UUID userUid = UUID.randomUUID();
+        User user = new User(userUid, "anna",
+                "montana", User.Gender.FEMALE, 30,"anna@gmail.com");
+
+        fakeDataDao.insertUser(userUid, user);
+
+        List<User> users = fakeDataDao.selectAllUsers();
+        assertThat(fakeDataDao.selectAllUsers()).hasSize(2);
+        assertThat(fakeDataDao.selectUserByUserUid(userUid).get()).isEqualToComparingFieldByField(user);
     }
 }

@@ -37,11 +37,20 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>dev.mccue</groupId>
+            <artifactId>guava-collect</artifactId>
+            <version>0.0.3</version>
+            <scope>test</scope>
+        </dependency>
+
+
     </dependencies>
 
     <build>
