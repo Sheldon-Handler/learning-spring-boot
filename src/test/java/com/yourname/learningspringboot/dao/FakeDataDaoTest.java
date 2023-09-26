@@ -3,6 +3,7 @@ package com.yourname.learningspringboot.dao;
 import com.yourname.learningspringboot.model.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -37,7 +38,7 @@ public class FakeDataDaoTest {
     public void shouldSelectUserByUserUid() throws Exception {
         UUID annaUserUid = UUID.randomUUID();
         User anna = new User(annaUserUid, "anna",
-                "montana", User.Gender.FEMALE, 30,"anna@gmail.com");
+                "montana", User.Gender.FEMALE, 30, "anna@gmail.com");
         fakeDataDao.insertUser(annaUserUid, anna);
         assertThat(fakeDataDao.selectAllUsers()).hasSize(2);
 
@@ -56,7 +57,7 @@ public class FakeDataDaoTest {
     public void shouldUpdateUser() throws Exception {
         UUID userUid = fakeDataDao.selectAllUsers().get(0).getUserUid();
         User newUser = new User(userUid, "anna",
-                "montana", User.Gender.FEMALE, 30,"anna@gmail.com");
+                "montana", User.Gender.FEMALE, 30, "anna@gmail.com");
         fakeDataDao.updateUser(newUser);
         Optional<User> user = fakeDataDao.selectUserByUserUid(userUid);
         assertThat(user.isPresent()).isTrue();
@@ -79,7 +80,7 @@ public class FakeDataDaoTest {
     public void insertUser() throws Exception {
         UUID userUid = UUID.randomUUID();
         User user = new User(userUid, "anna",
-                "montana", User.Gender.FEMALE, 30,"anna@gmail.com");
+                "montana", User.Gender.FEMALE, 30, "anna@gmail.com");
 
         fakeDataDao.insertUser(userUid, user);
 

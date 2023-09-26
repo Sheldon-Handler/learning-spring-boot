@@ -1,6 +1,5 @@
 package com.yourname.learningspringboot.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDate;
@@ -18,11 +17,11 @@ public class User {
 
     public User(
             @JsonProperty("userUid") UUID userUid,
-                @JsonProperty("firstName") String firstName,
-                @JsonProperty("lastName") String lastName,
-                @JsonProperty("gender") Gender gender,
-                @JsonProperty("age") Integer age,
-                @JsonProperty("email") String email) {
+            @JsonProperty("firstName") String firstName,
+            @JsonProperty("lastName") String lastName,
+            @JsonProperty("gender") Gender gender,
+            @JsonProperty("age") Integer age,
+            @JsonProperty("email") String email) {
         this.userUid = userUid;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -36,7 +35,7 @@ public class User {
         return userUid;
     }
 
-//    @JsonIgnore
+    //    @JsonIgnore
     public String getFirstName() {
         return firstName;
     }
@@ -69,6 +68,7 @@ public class User {
         return new User(userUid, user.getFirstName(), user.getLastName(),
                 user.getGender(), user.getAge(), user.getEmail());
     }
+
     @Override
     public String toString() {
         return "User{" +

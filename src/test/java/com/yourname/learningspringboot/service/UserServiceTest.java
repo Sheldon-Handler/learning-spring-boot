@@ -38,11 +38,11 @@ public class UserServiceTest {
         UUID annaUserUid = UUID.randomUUID();
 
         User anna = new User(annaUserUid, "anna",
-                "montana", User.Gender.FEMALE, 30,"anna@gmail.com");
+                "montana", User.Gender.FEMALE, 30, "anna@gmail.com");
 
         ImmutableList<User> users = new ImmutableList.Builder<User>()
                 .add(anna)
-                        .build();
+                .build();
 
         given(fakeDataDao.selectAllUsers()).willReturn(users);
 
@@ -60,12 +60,12 @@ public class UserServiceTest {
         UUID annaUserUid = UUID.randomUUID();
 
         User anna = new User(annaUserUid, "anna",
-                "montana", User.Gender.FEMALE, 30,"anna@gmail.com");
+                "montana", User.Gender.FEMALE, 30, "anna@gmail.com");
 
         UUID joeUserUid = UUID.randomUUID();
 
         User joe = new User(joeUserUid, "joe",
-                "jones", User.Gender.MALE, 30,"joe.jones@gmail.com");
+                "jones", User.Gender.MALE, 30, "joe.jones@gmail.com");
 
         ImmutableList<User> users = new ImmutableList.Builder<User>()
                 .add(anna)
@@ -90,7 +90,7 @@ public class UserServiceTest {
     public void shouldGetUser() throws Exception {
         UUID annaUid = UUID.randomUUID();
         User anna = new User(annaUid, "anna",
-                "montana", User.Gender.FEMALE, 30,"anna@gmail.com");
+                "montana", User.Gender.FEMALE, 30, "anna@gmail.com");
 
         given(fakeDataDao.selectUserByUserUid(annaUid)).willReturn(Optional.of(anna));
 
@@ -110,7 +110,7 @@ public class UserServiceTest {
         UUID annaUid = UUID.randomUUID();
 
         User anna = new User(annaUid, "anna",
-                "montana", User.Gender.FEMALE, 30,"anna@gmail.com");
+                "montana", User.Gender.FEMALE, 30, "anna@gmail.com");
 
         given(fakeDataDao.selectUserByUserUid(annaUid)).willReturn(Optional.of(anna));
         given(fakeDataDao.updateUser(anna)).willReturn(1);
@@ -133,7 +133,7 @@ public class UserServiceTest {
         UUID annaUid = UUID.randomUUID();
 
         User anna = new User(annaUid, "anna",
-                "montana", User.Gender.FEMALE, 30,"anna@gmail.com");
+                "montana", User.Gender.FEMALE, 30, "anna@gmail.com");
 
         given(fakeDataDao.selectUserByUserUid(annaUid)).willReturn(Optional.of(anna));
         given(fakeDataDao.deleteUserByUserUid(annaUid)).willReturn(1);
@@ -149,7 +149,7 @@ public class UserServiceTest {
     @Test
     public void shouldInsertUser() {
         User anna = new User(null, "anna",
-                "montana", User.Gender.FEMALE, 30,"anna@gmail.com");
+                "montana", User.Gender.FEMALE, 30, "anna@gmail.com");
 
         given(fakeDataDao.insertUser(any(UUID.class), eq(anna))).willReturn(1);
 
