@@ -2,6 +2,7 @@ package com.yourname.learningspringboot.resource;
 
 import com.yourname.learningspringboot.model.User;
 import com.yourname.learningspringboot.service.UserService;
+import jakarta.ws.rs.QueryParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,13 +24,19 @@ public class UserResource {
         this.userService = userService;
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public List<User> fetchUsers() {
-        return userService.getAllUsers();
+    @RequestMapping(
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public List<User> fetchUsers(@QueryParam("gender") String gender, @QueryParam("ageLessThan") Integer ageLessThan) {
+        return userService.getAllUsers(Optional.ofNullable(gender));
     }
 
-    @RequestMapping(method = RequestMethod.GET,
-            path = "{userUid}")
+    @RequestMapping(
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            path = "{userUid}"
+    )
     public ResponseEntity<?> fetchUser(@PathVariable("userUid") UUID userUid) {
 
         return userService.getUser(userUid).<ResponseEntity<?>>map(ResponseEntity::ok)
@@ -39,10 +46,35 @@ public class UserResource {
 
     @RequestMapping(
             method = RequestMethod.POST,
-            consumes = MediaType.APPLICATION_JSON_VALUE
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<Integer> insertNewUser(@RequestBody User user) {
         int result = userService.insertUser(user);
+        return getIntegerResponseEntity(result);
+    }
+
+    @RequestMapping(
+            method = RequestMethod.PUT,
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<Integer> updateUser(@RequestBody User user) {
+        int result = userService.updateUser(user);
+        return getIntegerResponseEntity(result);
+    }
+
+    @RequestMapping(
+            method = RequestMethod.DELETE,
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            path = "{userUid}"
+    )
+    public ResponseEntity<Integer> deleteUser(@PathVariable("userUid") UUID userUid) {
+        int result = userService.removeUser(userUid);
+        return getIntegerResponseEntity(result);
+    }
+
+    private ResponseEntity<Integer> getIntegerResponseEntity(int result) {
         if (result == 1) {
             return ResponseEntity.ok().build();
         }
