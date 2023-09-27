@@ -3,11 +3,9 @@ package com.yourname.learningspringboot.resource;
 import com.yourname.learningspringboot.model.User;
 import com.yourname.learningspringboot.service.UserService;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.*;
+import jakarta.ws.rs.core.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -36,7 +34,7 @@ public class UserResourceResteasy {
     @GET
     @Produces(APPLICATION_JSON)
     @Path("{userUid}")
-    public Response fetchUser(@PathVariable("userUid") UUID userUid) {
+    public Response fetchUser(@PathParam("userUid") UUID userUid) {
 
         return userService.getUser(userUid).map((user) -> Response.ok().build())
                 .orElseGet(() -> Response.noContent().build());
@@ -45,47 +43,31 @@ public class UserResourceResteasy {
     @POST
     @Consumes(APPLICATION_JSON)
     @Produces(APPLICATION_JSON)
-    public Response insertNewUser(@RequestBody User user) {
+    public Response insertNewUser(User user) {
         int result = userService.insertUser(user);
-        return getResponse(result);
+        return getIntegerResponseEntity(result);
     }
 
     @PUT
     @Consumes(APPLICATION_JSON)
     @Produces(APPLICATION_JSON)
-    public Response updateUser(@RequestBody User user) {
+    public Response updateUser(User user) {
         int result = userService.updateUser(user);
-        return getResponse(result);
+        return getIntegerResponseEntity(result);
     }
 
     @DELETE
     @Produces(APPLICATION_JSON)
-    @Path("userUid")
-    public Response deleteUser(@PathVariable("userUid") UUID userUid) {
+    @Path("{userUid}")
+    public Response deleteUser(@PathParam("userUid") UUID userUid) {
         int result = userService.removeUser(userUid);
-        return getResponse(result);
+        return getIntegerResponseEntity(result);
     }
 
-    private Response getResponse(int result) {
+    private Response getIntegerResponseEntity(int result) {
         if (result == 1) {
             return Response.ok().build();
         }
         return Response.status(NOT_FOUND).build();
-    }
-
-    class ErrorMessage {
-        String errorMessage;
-
-        public ErrorMessage(String errorMessage) {
-            this.errorMessage = errorMessage;
-        }
-
-        public String getErrorMessage() {
-            return errorMessage;
-        }
-
-        public void setErrorMessage(String errorMessage) {
-            this.errorMessage = errorMessage;
-        }
     }
 }

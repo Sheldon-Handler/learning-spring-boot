@@ -4,22 +4,20 @@ import com.yourname.learningspringboot.model.User;
 import com.yourname.learningspringboot.service.UserService;
 import jakarta.ws.rs.QueryParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@RestController
-@RequestMapping(path = "/api/v1/users")
+//@RestController
+//@RequestMapping(path = "/api/v1/users")
 public class UserResourceSpringMVC {
 
     private UserService userService;
 
-    @Autowired
+//    @Autowired
     public UserResourceSpringMVC(UserService userService) {
         this.userService = userService;
     }
@@ -79,21 +77,5 @@ public class UserResourceSpringMVC {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.badRequest().build();
-    }
-
-    class ErrorMessage {
-        String errorMessage;
-
-        public ErrorMessage(String errorMessage) {
-            this.errorMessage = errorMessage;
-        }
-
-        public String getErrorMessage() {
-            return errorMessage;
-        }
-
-        public void setErrorMessage(String errorMessage) {
-            this.errorMessage = errorMessage;
-        }
     }
 }
