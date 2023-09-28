@@ -2,6 +2,10 @@ package com.yourname.learningspringboot.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.Email;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -11,10 +15,18 @@ public class User {
 
     // user id
     private final UUID userUid;
+    @NotNull
     private final String firstName;
+    @NotNull
     private final String lastName;
+    @NotNull
     private final Gender gender;
+    @NotNull
+    @Max(value = 112)
+    @Min(value = 0)
     private final Integer age;
+    @NotNull
+    @Email
     private final String email;
 
     public User(

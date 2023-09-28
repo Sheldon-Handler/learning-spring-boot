@@ -5,19 +5,23 @@ import com.yourname.learningspringboot.service.UserService;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 
+@Validated
 @Component
-@Path("api/v1/users")
+@Path("/api/v1/users")
 public class UserResourceResteasy {
 
     private UserService userService;
@@ -37,40 +41,34 @@ public class UserResourceResteasy {
     @Produces(APPLICATION_JSON)
     @Path("{userUid}")
     public User fetchUser(@PathParam("userUid") UUID userUid) {
-
-//        return userService.getUser(userUid).map((user) -> Response.accepted().build())
-//                .orElseGet(() -> Response.noContent().build());
-        return userService.getUser(userUid).get();
+        return userService.getUser(userUid).orElseThrow(() -> new NotFoundException("user " + userUid + " not found"));
     }
 
     @POST
     @Consumes(APPLICATION_JSON)
     @Produces(APPLICATION_JSON)
-    public ResponseEntity<Integer> insertNewUser(User user) {
-        int result = userService.insertUser(user);
-        return getIntegerResponseEntity(result);
+    public void insertNewUser(@Valid  User user) {
+        userService.insertUser(user);
     }
 
     @PUT
     @Consumes(APPLICATION_JSON)
     @Produces(APPLICATION_JSON)
-    public ResponseEntity<Integer> updateUser(User user) {
-        int result = userService.updateUser(user);
-        return getIntegerResponseEntity(result);
+    public void updateUser(User user) {
+        userService.updateUser(user);
     }
 
     @DELETE
     @Produces(APPLICATION_JSON)
     @Path("{userUid}")
-    public ResponseEntity<Integer> deleteUser(@PathParam("userUid") UUID userUid) {
-        int result = userService.removeUser(userUid);
-        return getIntegerResponseEntity(result);
+    public void deleteUser(@PathParam("userUid") UUID userUid) {
+        userService.removeUser(userUid);
     }
 
-    private ResponseEntity<Integer> getIntegerResponseEntity(int result) {
+    private Response getIntegerResponseEntity(int result) {
         if (result == 1) {
-            return ResponseEntity.ok().build();
+            return Response.ok().build();
         }
-        return ResponseEntity.badRequest().build();
+        return Response.status(BAD_REQUEST).build();
     }
 }

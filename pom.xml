@@ -55,6 +55,13 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/dev.mccue/guava-collect -->
+        <dependency>
+            <groupId>dev.mccue</groupId>
+            <artifactId>guava-collect</artifactId>
+            <version>0.0.3</version>
+        </dependency>
+
         <!-- https://mvnrepository.com/artifact/org.jboss.resteasy/resteasy-client -->
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
