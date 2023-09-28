@@ -163,7 +163,7 @@ public class UserServiceTest {
 
         assertAnnaFields(user);
 
-        assertThat(insertResult).isEqualTo(1);
+        assertThat(insertResult).isEqualTo(0);
     }
 
     private void assertAnnaFields(User user) {

@@ -20,8 +20,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>21</java.version>
-        <rest.easy.client.version>3.1.2.Final</rest.easy.client.version>
+        <java.version>17</java.version>
+        <rest.easy.client.version>3.15.6.Final</rest.easy.client.version>
         <paypal.rest.easy.version>2.3.4-RELEASE</paypal.rest.easy.version>
     </properties>
 
@@ -54,24 +54,12 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>dev.mccue</groupId>
-            <artifactId>guava-collect</artifactId>
-            <version>0.0.3</version>
-            <scope>test</scope>
-        </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.jboss.resteasy/resteasy-client -->
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-client</artifactId>
             <version>${rest.easy.client.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-            <version>RELEASE</version>
-            <scope>compile</scope>
         </dependency>
 
     </dependencies>
